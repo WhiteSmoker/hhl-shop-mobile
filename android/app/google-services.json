@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "782245927002",
+    "project_id": "stump-4325b",
+    "storage_bucket": "stump-4325b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:782245927002:android:c0ca1d8aa758b27f9d2063",
+        "android_client_info": {
+          "package_name": "com.pg.stump"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "782245927002-e68nj8q0o7ffe9i909u81gmta8um6jen.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBb5Nxup3BaeqtHWJQgsg5FZHmJ0AfuvTk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "782245927002-e68nj8q0o7ffe9i909u81gmta8um6jen.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "782245927002-l96cbc7hgc99fjvbepdchpusiepv4773.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.pg.stump"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
