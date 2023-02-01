@@ -1,6 +1,6 @@
 import { Colors } from '@/theme/colors';
 import React from 'react';
-import { Alert, Linking, Pressable, StyleSheet, Text } from 'react-native';
+import { Linking, Pressable, StyleSheet } from 'react-native';
 import { scale } from 'react-native-size-scaling';
 import { TextComponent } from '../TextComponent';
 export const OpenURLButton = React.memo(({ url }: any) => {

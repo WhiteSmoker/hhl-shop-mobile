@@ -17,9 +17,9 @@ import {
 import * as Yup from 'yup';
 import { AUTH_NAVIGATION } from '@/constants';
 import Toast from 'react-native-toast-message';
-import { globalLoading } from '@/containers/actions/emitter.action';
-import { authController } from '@/controllers';
+// import { authController } from '@/controllers';
 import { IProps } from './ForgotPassword.prop';
+import { globalLoading } from '@/containers/actions/emitter.action';
 
 const schema = Yup.object().shape({
   email: Yup.string().email('Please enter a valid email address').required('Please enter your email address'),
@@ -36,7 +36,7 @@ export const ForgotPassword = (props: IProps) => {
     const { email } = data;
     try {
       globalLoading(true);
-      await authController.forgotPassword(email);
+      // await authController.forgotPassword(email);
       props.navigation.navigate(AUTH_NAVIGATION.CHANGE_PASSWORD, { email });
       Toast.show({
         type: 'success',

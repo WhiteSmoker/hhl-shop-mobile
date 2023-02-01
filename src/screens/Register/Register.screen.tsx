@@ -1,14 +1,17 @@
+import { REG_EMAIL } from '@/constants';
 import HorizontalRuleComponent from '@/containers/components/HorizontalRuleComponent';
+import { setProfile } from '@/stores/reducers';
+import { commonStyles } from '@/styles/common';
 import { ContainerStyled } from '@/styles/styled-component';
+import { spacing } from '@/theme';
 import { Colors } from '@/theme/colors';
 import React, { Fragment } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { Alert, KeyboardAvoidingView, Linking, Platform, StatusBar, View } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { scale } from 'react-native-size-scaling';
 import Icon from 'react-native-vector-icons/Ionicons';
-import MainLogoSvg from '@/assets/icons/header/Logo1.svg';
-import MainLogo2Svg from '@/assets/icons/header/Logo2.svg';
 import { useDispatch } from 'react-redux';
 import {
   styles,
@@ -19,15 +22,9 @@ import {
   ViewBtnLoginStyled,
   ViewSigninStyled,
 } from '../Login/Login.style';
-import { commonStyles } from '@/styles/common';
-import { Controller, useForm } from 'react-hook-form';
-import { AUTH_NAVIGATION, REG_EMAIL } from '@/constants';
-import { _checkExistEmail } from '@/utils/helper';
-import { setProfile } from '@/stores/reducers';
 import { IProps } from './Register.prop';
-import { globalLoading } from '@/containers/actions/emitter.action';
-import { spacing } from '@/theme';
 
+import { globalLoading } from '@/containers/actions/emitter.action';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 
@@ -73,13 +70,7 @@ export const RegisterComponent = (props: IProps) => {
   const onSubmit = async ({ email, password }: FormData) => {
     try {
       globalLoading(true);
-      const res = await _checkExistEmail(email);
-      if (res) {
-        Alert.alert('', 'Email already exists.');
-        return;
-      }
       dispatch(setProfile({ email, password }));
-      props.navigation.push(AUTH_NAVIGATION.USER_INFORMATION);
     } catch (error: any) {
       console.log(error);
       Alert.alert(error.error);
@@ -96,10 +87,7 @@ export const RegisterComponent = (props: IProps) => {
         keyboardShouldPersistTaps="handled"
         enableOnAndroid={true}>
         <StatusBar translucent={true} backgroundColor="transparent" />
-        <View style={styles.viewLogo}>
-          <MainLogoSvg width={scale(100)} height={scale(100)} style={{ marginBottom: 10 }} />
-          <MainLogo2Svg width={scale(200)} height={scale(27)} />
-        </View>
+        <View style={styles.viewLogo} />
         <KeyboardAvoidingView>
           <Fragment>
             <Controller

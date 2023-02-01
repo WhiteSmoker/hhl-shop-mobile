@@ -21,13 +21,13 @@ import { IProps, IState } from './ChoosePhoto.prop';
 import ImagePicker from 'react-native-image-crop-picker';
 import { format } from 'date-fns';
 import RNFetchBlob from 'rn-fetch-blob';
-import { _uploadPresignedUrl, getType } from '@/utils/helper';
-import { authController } from '@/controllers';
+// import { _uploadPresignedUrl, getType } from '@/utils/helper';
+// import { authController } from '@/controllers';
 import UserIconSvg from '@/assets/icons/user_icon.svg';
-import { globalLoading } from '@/containers/actions/emitter.action';
-import { loginAfterSignup } from '@/stores/thunks/auth.thunk';
+// import { loginAfterSignup } from '@/stores/thunks/auth.thunk';
 import { TAppDispatch } from '@/stores';
 import { requestStoragePermission } from '@/utils/permission';
+import { globalLoading } from '@/containers/actions/emitter.action';
 
 export const ChoosePhotoComponent = (props: IProps) => {
   const dispatch = useDispatch<TAppDispatch>();
@@ -52,9 +52,9 @@ export const ChoosePhotoComponent = (props: IProps) => {
       data: RNFetchBlob.wrap(Platform.OS === 'android' ? result.path : result.path.replace('file://', '')),
       type: result.mime || 'image/jpeg',
       name: format(new Date(), 't'),
-      filename: format(new Date(), 't') + getType(result.mime || 'image/jpeg'),
+      // filename: format(new Date(), 't') + getType(result.mime || 'image/jpeg'),
     };
-    setState(preState => ({ ...preState, uri: result.path, image: img }));
+    // setState(preState => ({ ...preState, uri: result.path, image: img }));
   };
 
   const _navigate = (isSkip: boolean) => async () => {
@@ -63,29 +63,29 @@ export const ChoosePhotoComponent = (props: IProps) => {
       globalLoading(true);
       let url = '';
       if (!isSkip && state.image) {
-        const imgS3 = await _uploadPresignedUrl(state.image);
-        url = imgS3?.url ?? '';
+        // const imgS3 = await _uploadPresignedUrl(state.image);
+        // url = imgS3?.url ?? '';
       }
       const signupCode = await storage.getItem(ASYNC_STORE.SIGNUP_CODE);
 
-      const res_register = await authController.register({
-        email,
-        firstName,
-        lastName,
-        displayName,
-        avatar: url || '',
-        password,
-        signupCode,
-      });
-      if (res_register.status === 1) {
-        Toast.show({
-          type: 'success',
-          text1: 'You have signed up successfully.',
-          text2: 'You may login now to use Stump service.',
-        });
-        // props.navigation.push(AUTH_NAVIGATION.SURVEY_FAV);
-        dispatch(loginAfterSignup(res_register.data));
-      }
+      // const res_register = await authController.register({
+      //   email,
+      //   firstName,
+      //   lastName,
+      //   displayName,
+      //   avatar: url || '',
+      //   password,
+      //   signupCode,
+      // });
+      // if (res_register.status === 1) {
+      //   Toast.show({
+      //     type: 'success',
+      //     text1: 'You have signed up successfully.',
+      //     text2: 'You may login now to use Stump service.',
+      //   });
+      //   // props.navigation.push(AUTH_NAVIGATION.SURVEY_FAV);
+      //   dispatch(loginAfterSignup(res_register.data));
+      // }
     } catch (error: any) {
       Alert.alert('', error.error);
     } finally {

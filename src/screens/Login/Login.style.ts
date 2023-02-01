@@ -103,7 +103,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: scale(spacing.s),
-    backgroundColor: Colors.Background2,
+    backgroundColor: Colors.Soft_Blue,
   },
   formContainer: {
     borderRadius: scale(5),

@@ -1,7 +1,7 @@
 import { AUTH_NAVIGATION, VALIDATION_INPUT } from '@/constants';
 import DismissKeyboard from '@/containers/components/DismissKeyboard';
-import { userController } from '@/controllers';
-import { setProfile } from '@/stores/reducers';
+// import { userController } from '@/controllers';
+// import { setProfile } from '@/stores/reducers';
 import React, { Fragment } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Alert } from 'react-native';
@@ -18,7 +18,7 @@ import {
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-import { ContainerStyled } from '@/styles/common';
+import { ContainerStyled } from '@/styles';
 
 type FormData = {
   firstName: string;
@@ -47,8 +47,8 @@ export const UserInformationComponent = (props: IProps) => {
 
   const onSubmit = async (data: FormData) => {
     try {
-      await userController.validateName(data.displayName);
-      dispatch(setProfile(data));
+      // await userController.validateName(data.displayName);
+      // dispatch(setProfile(data));
       props.navigation.push(AUTH_NAVIGATION.CHOOSE_AVATAR);
     } catch (error: any) {
       Alert.alert('', error.error);
