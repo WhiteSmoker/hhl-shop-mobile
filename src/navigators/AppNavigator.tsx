@@ -1,3 +1,13 @@
+import React from 'react';
+import { scale } from 'react-native-size-scaling';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import styled from 'styled-components/native';
+
+import { ifNotchIphone } from '../theme/scale';
+import CartNavigator from './CartNavigator';
+import HomeNavigator from './HomeNavigator';
+import ProductNavigator from './ProductNavigator';
+
 import {
   IconDotRecordTab,
   IconHomeTab,
@@ -13,24 +23,12 @@ import {
   IconSelectedSearchTab,
 } from '@/assets/icons/Icon';
 import { APP_NAVIGATION } from '@/constants/navigation';
-import { selectTabActive, useAppSelector } from '@/stores';
-import { commonSlice } from '@/stores/reducers';
 import { Colors } from '@/theme/colors';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React from 'react';
-import { Text } from 'react-native';
-import { scale } from 'react-native-size-scaling';
-import { useDispatch } from 'react-redux';
-import styled from 'styled-components/native';
-import { ifNotchIphone } from '../theme/scale';
-// import HomeNavigator from './HomeNavigator';
-// import ProfileNavigator from './ProfileNavigator';
-// import SearchNavigator from './SearchNavigator';
 
 export type TabBottomStackParam = {
   [APP_NAVIGATION.HOME]: undefined;
-  [APP_NAVIGATION.SEARCH]: undefined;
-  [APP_NAVIGATION.NOTIFICATION]: undefined;
+  [APP_NAVIGATION.PRODUCT]: undefined;
+  [APP_NAVIGATION.CART]: undefined;
   [APP_NAVIGATION.PROFILE]: undefined;
 };
 const Tab = createBottomTabNavigator<TabBottomStackParam>();
@@ -74,61 +72,53 @@ const RenderTabBarIcon = (
   );
 };
 
-export const TAB_BAR_HEIGHT = scale(ifNotchIphone(100, 82));
+export const TAB_BAR_HEIGHT = scale(ifNotchIphone(72, 60));
 
 export function AppNavigator() {
-  const dispatch = useDispatch();
-  const tabActive = useAppSelector(selectTabActive);
-
   return (
     <Tab.Navigator
       initialRouteName={APP_NAVIGATION.HOME}
       screenOptions={{ headerShown: false, tabBarStyle: { height: TAB_BAR_HEIGHT } }}>
-      {/* <Tab.Screen
+      <Tab.Screen
         name={APP_NAVIGATION.HOME}
         component={HomeNavigator}
-        listeners={{
-          focus: () => {
-            dispatch(commonSlice.actions.setTabActive(APP_NAVIGATION.HOME));
-          },
-        }}
         options={({ route }) => ({
-          tabBarLabel: () => <Text />,
+          tabBarLabel: () => <></>,
           tabBarIcon: props => {
             return RenderTabBarIcon('IconHomeTab', 'IconSelectedHomeTab', props.focused);
           },
         })}
       />
       <Tab.Screen
-        name={APP_NAVIGATION.SEARCH}
-        component={SearchNavigator}
-        listeners={{
-          focus: () => {
-            dispatch(commonSlice.actions.setTabActive(APP_NAVIGATION.SEARCH));
-          },
-        }}
+        name={APP_NAVIGATION.PRODUCT}
+        component={ProductNavigator}
         options={({ route }) => ({
-          tabBarLabel: () => <Text />,
+          tabBarLabel: () => <></>,
           tabBarIcon: props => {
             return RenderTabBarIcon('IconSearchTab', 'IconSelectedSearchTab', props.focused);
           },
         })}
       />
       <Tab.Screen
-        name={APP_NAVIGATION.PROFILE}
-        component={ProfileNavigator}
-        listeners={({ navigation }) => ({
-          focus: () => {
-            dispatch(commonSlice.actions.setTabActive(APP_NAVIGATION.PROFILE));
+        name={APP_NAVIGATION.CART}
+        component={CartNavigator}
+        options={({ route }) => ({
+          tabBarLabel: () => <></>,
+          tabBarIcon: props => {
+            return RenderTabBarIcon('IconRecordTab', 'IconSelectedRecordTab', props.focused);
           },
         })}
+      />
+      <Tab.Screen
+        name={APP_NAVIGATION.PROFILE}
+        component={HomeNavigator}
         options={({ route }) => ({
-          tabBarLabel: () => <Text />,
+          tabBarLabel: () => <></>,
           tabBarIcon: props => {
             return RenderTabBarIcon('IconProfileTab', 'IconSelectedProfileTab', props.focused);
           },
         })}
-      /> */}
+      />
     </Tab.Navigator>
   );
 }
@@ -149,7 +139,7 @@ export const LabelNavigationStyled = styled.Text<StyleProps>`
 `;
 
 export const ViewIcon = styled.View`
-  margin-top: ${scale(15)}px;
+  margin-top: ${scale(0)}px;
 `;
 
 export const DotStyled = styled.View`

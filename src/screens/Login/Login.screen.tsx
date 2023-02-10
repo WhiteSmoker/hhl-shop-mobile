@@ -1,21 +1,12 @@
-import { AUTH_NAVIGATION } from '@/constants';
-import HorizontalRuleComponent from '@/containers/components/HorizontalRuleComponent';
-import { networkService } from '@/networking';
-import { ASYNC_STORE, storage } from '@/storage';
-import { TAppDispatch } from '@/stores';
-import { fetchLogin } from '@/stores/thunks/auth.thunk';
-import { ContainerStyled } from '@/styles/styled-component';
-import { spacing } from '@/theme';
-import { Colors } from '@/theme/colors';
-import { yupResolver } from '@hookform/resolvers/yup';
 import React, { Fragment, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Platform, StatusBar, TouchableOpacity, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { scale } from 'react-native-size-scaling';
-import SplashScreen from 'react-native-splash-screen';
 import { useDispatch } from 'react-redux';
+import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
+
 import { ILoginProps } from './Login.prop';
 import {
   styles,
@@ -28,9 +19,20 @@ import {
   ViewSigninStyled,
 } from './Login.style';
 
+import { AUTH_NAVIGATION } from '@/constants';
+import HorizontalRuleComponent from '@/containers/components/HorizontalRuleComponent';
+import { networkService } from '@/networking';
+import { ASYNC_STORE, storage } from '@/storage';
+import { TAppDispatch } from '@/stores';
+import { setUserInfo } from '@/stores/reducers';
+import { fetchLogin } from '@/stores/thunks/auth.thunk';
+import { ContainerStyled } from '@/styles/styled-component';
+import { spacing } from '@/theme';
+import { Colors } from '@/theme/colors';
+
 const schema = Yup.object().shape({
-  email: Yup.string().email('Please enter a valid email address').required('Please enter your email address'),
-  password: Yup.string().min(6, 'The password must be at least 6 characters').required('Please enter your password'),
+  username: Yup.string().required('Please enter your user name'),
+  password: Yup.string().required('Please enter your password'),
 });
 
 export const Login = (props: ILoginProps) => {
@@ -40,21 +42,20 @@ export const Login = (props: ILoginProps) => {
     control,
     handleSubmit,
     formState: { errors, touchedFields },
-  } = useForm<{ email: string; password: string }>({ mode: 'onChange', resolver: yupResolver(schema) });
+  } = useForm<{ username: string; password: string }>({ mode: 'onChange', resolver: yupResolver(schema) });
 
   const _fetchUser = async () => {
     const token = await storage.getItem(ASYNC_STORE.TOKEN_ID);
-
+    const user = await storage.getItem(ASYNC_STORE.MY_USER);
     if (token) {
       networkService.setAccessToken(token);
-      // dispatch(fetchDataFirstTime(false));
-    } else {
-      SplashScreen.hide();
+    }
+    if (user) {
+      dispatch(setUserInfo(JSON.parse(user)));
     }
   };
 
   useEffect(() => {
-    //fetch user
     _fetchUser();
   }, []);
 
@@ -65,7 +66,7 @@ export const Login = (props: ILoginProps) => {
     props.navigation.navigate(AUTH_NAVIGATION.FORGOT_PASSWORD);
   };
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     dispatch(fetchLogin(data));
   };
 
@@ -84,17 +85,17 @@ export const Login = (props: ILoginProps) => {
             render={({ field: { value, onChange, onBlur } }) => (
               <TextInputStyled
                 autoCapitalize="none"
-                keyboardType={'email-address'}
+                keyboardType={'default'}
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
                 placeholder="Username"
               />
             )}
-            name="email"
+            name="username"
             defaultValue={''}
           />
-          {errors.email && <TextErrorStyled>{errors.email?.message ?? ' '}</TextErrorStyled>}
+          {errors.username && <TextErrorStyled>{errors.username?.message ?? ' '}</TextErrorStyled>}
           <Controller
             control={control}
             render={({ field: { value, onChange, onBlur } }) => (

@@ -1,6 +1,7 @@
-import { Colors } from '@/theme/colors';
 import { Dimensions, Platform, StyleSheet } from 'react-native';
 import { scale } from 'react-native-size-scaling';
+
+import { Colors } from '@/theme/colors';
 
 export const insets = { top: 20, bottom: 20, left: 20, right: 20 };
 
@@ -19,6 +20,15 @@ export const commonStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  align_i_center: {
+    alignItems: 'center',
+  },
+  justify_between: {
+    justifyContent: 'space-between',
+  },
+  justify_end: {
+    justifyContent: 'flex-end',
+  },
   pd_bottom_12: {
     paddingBottom: scale(12),
   },
@@ -34,8 +44,11 @@ export const commonStyles = StyleSheet.create({
   pd_right_6: {
     paddingRight: scale(6),
   },
-  mg_horizontal_12: {
-    marginHorizontal: scale(12),
+  pd_4: {
+    padding: scale(4),
+  },
+  pd_6: {
+    padding: scale(6),
   },
   pd_horizontal_16: {
     paddingHorizontal: scale(16),
@@ -43,8 +56,62 @@ export const commonStyles = StyleSheet.create({
   pd_right_16: {
     paddingRight: scale(16),
   },
+  mg_horizontal_12: {
+    marginHorizontal: scale(12),
+  },
   mg_right_16: {
     marginRight: 16,
+  },
+  mg_bottom_10: {
+    marginBottom: scale(10),
+  },
+  mt_4: {
+    marginTop: scale(4),
+  },
+  mt_6: {
+    marginTop: scale(6),
+  },
+  mt_8: {
+    marginTop: scale(8),
+  },
+  mt_10: {
+    marginTop: scale(10),
+  },
+  mr_6: {
+    marginRight: scale(6),
+  },
+  font_10: {
+    fontSize: scale(10),
+    fontFamily: 'Lexend-Regular',
+  },
+  font_12: {
+    fontSize: scale(12),
+    fontFamily: 'Lexend-Regular',
+  },
+  font_14: {
+    fontSize: scale(14),
+    fontFamily: 'Lexend-Regular',
+  },
+  font_16: {
+    fontSize: scale(16),
+    fontFamily: 'Lexend-Regular',
+  },
+  font_18: {
+    fontSize: scale(18),
+    fontFamily: 'Lexend-Regular',
+  },
+  font_20: {
+    fontSize: scale(20),
+    fontFamily: 'Lexend-Regular',
+  },
+  text_bold: {
+    fontFamily: 'Lexend-Bold',
+  },
+  text_capitalize: {
+    textTransform: 'capitalize',
+  },
+  text_softBlue: {
+    color: Colors.Soft_Blue,
   },
   flex_1: {
     flex: 1,
@@ -71,13 +138,12 @@ export const commonStyles = StyleSheet.create({
     shadowColor: '#00000033',
     shadowOffset: {
       width: 0,
-      height: 4,
+      height: 6,
     },
     shadowOpacity: Platform.OS === 'ios' ? 0.2 : 0.5,
-    shadowRadius: Platform.OS === 'ios' ? 12 : 12,
+    shadowRadius: 12,
     elevation: Platform.OS === 'ios' ? 2 : 3,
     zIndex: 1,
-    borderRadius: scale(10),
   },
   flatlist_item: {
     backgroundColor: Colors.White,

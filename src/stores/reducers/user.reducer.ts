@@ -1,9 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IUserInfo } from '../types';
 
 interface InitialState {
-  userInfo?: IUserInfo;
-  followUser?: any;
+  userInfo?: {};
 }
 
 const initialState: InitialState = {};
@@ -16,12 +14,6 @@ export const userSlice = createSlice({
       ...state,
       userInfo: action.payload,
     }),
-    setIdFollow: (state: InitialState, action: PayloadAction<{ id: number; follow?: boolean }>) => {
-      return {
-        ...state,
-        followUser: action.payload,
-      };
-    },
   },
 });
 

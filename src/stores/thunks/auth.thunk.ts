@@ -1,33 +1,30 @@
-import { ASYNC_STORE, storage } from '@/storage';
-// import { checkPermissionFCM, getDeviceInfo, getTokenFCM } from '@/utils/helper';
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import Toast from 'react-native-toast-message';
-import { Alert } from 'react-native';
-import { networkService } from '@/networking';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+
+import { setUserInfo } from '../reducers/user.reducer';
+
 import { globalLoading } from '@/containers/actions/emitter.action';
-import { userSlice } from '../reducers/user.reducer';
-import { EDeviceEmitter, emitter } from '@/hooks/useEmitter';
+import { authController } from '@/controllers';
+import { networkService } from '@/networking';
+import { ASYNC_STORE, storage } from '@/storage';
 
 export const fetchLogin = createAsyncThunk('auth/login', async (auth: any, thunkAPI) => {
   try {
     globalLoading(true);
-    const { email, password } = auth;
-    // const signupCode = await storage.getItem(ASYNC_STORE.SIGNUP_CODE);
-    // const res_login: any = await authController.login({ email, password, signupCode });
-    // if (res_login.status === 1) {
-    //   await storage.setItem(ASYNC_STORE.TOKEN_ID, res_login.data.token.toString());
-    //   networkService.setAccessToken(res_login.data.token);
-    //   await storage.setItem(ASYNC_STORE.LOGIN_METHOD, res_login.data.loginMethod.toString());
-    //   await checkPermissionFCM();
-    //   await thunkAPI.dispatch(fetchDataFirstTime(false));
-    // } else {
-    //   Alert.alert('');
-    // }
+    const { username, password } = auth;
+    const res_login: any = await authController.login({ username, password });
+
+    if (res_login.success === true) {
+      await storage.setItem(ASYNC_STORE.TOKEN_ID, res_login.accessToken.toString());
+      await storage.setItem(ASYNC_STORE.MY_USER, JSON.stringify(res_login.user));
+      networkService.setAccessToken(res_login.accessToken);
+      thunkAPI.dispatch(setUserInfo(res_login.user));
+    }
   } catch (error: any) {
     Toast.show({
       type: 'error',
       text1: '',
-      text2: error.message || error.error,
+      text2: error.message,
     });
   } finally {
     globalLoading();

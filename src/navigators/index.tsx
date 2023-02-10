@@ -1,12 +1,14 @@
-import { ROOT_ROUTES } from '@/constants';
-import '@/networking';
-import { useAppSelector } from '@/stores';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react';
+
 import { AppNavigator } from './AppNavigator';
 import { AuthNavigator } from './AuthNavigator';
 import { navigationRef } from './refs';
+
+import '@/networking';
+import { ROOT_ROUTES } from '@/constants';
+import { useAppSelector } from '@/stores';
 export type RootStackParam = {
   [ROOT_ROUTES.APP_NAVIGATION]: undefined;
   [ROOT_ROUTES.AUTH_NAVIGATION]: undefined;
@@ -15,6 +17,7 @@ const RootStack = createNativeStackNavigator<RootStackParam>();
 
 export function RootNavigator() {
   const user = useAppSelector(state => state.userState.userInfo);
+
   const chooseScreen = React.useMemo(() => {
     return user ? (
       <RootStack.Screen name={ROOT_ROUTES.APP_NAVIGATION} component={AppNavigator} options={{ header: () => null }} />

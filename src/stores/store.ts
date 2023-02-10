@@ -1,11 +1,12 @@
-import { AnyAction, CombinedState, combineReducers, configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import { authSlice, commonSlice, userSlice } from './reducers';
+import { AnyAction, CombinedState, combineReducers, configureStore } from '@reduxjs/toolkit';
+
+import { authSlice, cartSlice, userSlice } from './reducers';
 
 const reducer = combineReducers({
   authState: authSlice.reducer,
   userState: userSlice.reducer,
-  commonState: commonSlice.reducer,
+  cartState: cartSlice.reducer,
 });
 
 /** config root reducer */

@@ -1,7 +1,8 @@
+import React from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 import { AUTH_NAVIGATION } from '@/constants/navigation';
 import { ForgotPassword, Login, RegisterComponent } from '@/screens';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react';
 
 export type AuthStackParam = {
   [AUTH_NAVIGATION.LOGIN]: undefined;

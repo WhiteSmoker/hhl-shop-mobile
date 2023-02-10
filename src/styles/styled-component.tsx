@@ -1,11 +1,12 @@
-import { Colors } from '@/theme/colors';
 import { ViewStyle } from 'react-native';
 import { scale } from 'react-native-size-scaling';
 import styled from 'styled-components/native';
 
+import { Colors } from '@/theme/colors';
+
 export const ContainerStyled = styled.SafeAreaView`
   flex: 1;
-  background: ${Colors.Very_Light_Gray};
+  background: ${Colors.Light_grey};
 `;
 
 export const ContainerScrollStyled = styled.ScrollView`
