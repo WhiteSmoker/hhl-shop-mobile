@@ -53,29 +53,18 @@ export const fetchUser = createAsyncThunk('auth/userInfo', async (loading: boole
   }
 });
 
-// export const logOut = createAsyncThunk('auth/logOut', async (param: { url?: string; onEnd?: any }, thunkAPI) => {
-//   try {
-//     globalLoading(true);
-//     socketRecord.emit(SOCKET_RECORD_EVENT.LEAVE, null);
-//     const deviceToken = await getTokenFCM();
-//     const { uuid } = await getDeviceInfo();
-//     const unregDevice = await authController.removeDevice({ deviceToken, uuid });
-//     if (unregDevice.status === 1) {
-//       await storage.clear();
-//       const token = await storage.getItem(ASYNC_STORE.TOKEN_ID);
-//       if (token) {
-//         return;
-//       } else {
-//         emitter(EDeviceEmitter.DEEP_LINK_INVITATION, {});
-//         thunkAPI.dispatch({ type: 'LOG_OUT_ACTION' });
-//         if (param.onEnd) {
-//           param.onEnd();
-//         }
-//       }
-//     }
-//   } catch (error: any) {
-//     console.log(error);
-//   } finally {
-//     globalLoading();
-//   }
-// });
+export const logOut = createAsyncThunk('auth/logOut', async (param: { onEnd?: any }, thunkAPI) => {
+  try {
+    globalLoading(true);
+    await storage.setItem(ASYNC_STORE.TOKEN_ID, '');
+    await storage.setItem(ASYNC_STORE.MY_USER, '');
+    thunkAPI.dispatch({ type: 'LOG_OUT_ACTION' });
+    if (param.onEnd) {
+      param.onEnd();
+    }
+  } catch (error: any) {
+    console.log(error);
+  } finally {
+    globalLoading();
+  }
+});

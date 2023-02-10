@@ -89,7 +89,7 @@ export const Login = (props: ILoginProps) => {
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
-                placeholder="Username"
+                placeholder="Tên người dùng"
               />
             )}
             name="username"
@@ -106,7 +106,7 @@ export const Login = (props: ILoginProps) => {
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
-                placeholder="Password"
+                placeholder="Mật khẩu"
               />
             )}
             name="password"
@@ -117,7 +117,7 @@ export const Login = (props: ILoginProps) => {
           <ViewForgotPasswordStyled>
             <TouchableOpacity onPress={_gotoForgotPassword}>
               <TextOrStyled color={Colors.Strong_Blue} style={{ fontWeight: 'bold' }}>
-                Forgot Password?
+                Quên mật khẩu
               </TextOrStyled>
             </TouchableOpacity>
           </ViewForgotPasswordStyled>
@@ -126,7 +126,7 @@ export const Login = (props: ILoginProps) => {
             backgroundColor={Colors.Strong_Blue}
             onPress={handleSubmit(onSubmit)}
             style={[styles.shadow]}>
-            <TextLoginStyled>Sign in</TextLoginStyled>
+            <TextLoginStyled>Đăng nhập</TextLoginStyled>
           </ViewBtnLoginStyled>
         </Fragment>
         <HorizontalRuleComponent width={0} height={scale(64)} color={'transparent'} />
@@ -134,13 +134,13 @@ export const Login = (props: ILoginProps) => {
         <ViewSigninStyled onPress={_gotoSignup}>
           <View style={[{ marginRight: scale(8) }]}>
             <TextOrStyled>
-              <TextOrStyled color={Colors.white}>Don’t have an account?</TextOrStyled>
+              <TextOrStyled color={Colors.white}>Không có tài khoản?</TextOrStyled>
             </TextOrStyled>
           </View>
           <View>
             <TextOrStyled>
               <TextOrStyled color={Colors.Strong_Blue} style={{ fontWeight: 'bold' }}>
-                Sign up!
+                Đăng ký
               </TextOrStyled>
             </TextOrStyled>
           </View>

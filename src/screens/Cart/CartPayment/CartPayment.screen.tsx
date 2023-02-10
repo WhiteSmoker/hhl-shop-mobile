@@ -14,7 +14,7 @@ import { ICartPaymentProps } from './CartPayment.props';
 import { styles, TextErrorStyled, TextInputStyled } from './CartPayment.style';
 
 import { IconTickRadio, IconUntickRadio } from '@/assets/icons/Icon';
-import { APP_NAVIGATION, CART_NAVIGATION } from '@/constants';
+import { CART_NAVIGATION } from '@/constants';
 import { globalLoading } from '@/containers/actions/emitter.action';
 import { orderController } from '@/controllers/order.conytroller';
 import { useAuth } from '@/hooks/useAuth';

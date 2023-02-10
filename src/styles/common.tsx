@@ -16,6 +16,9 @@ export const commonStyles = StyleSheet.create({
   selfEnd: {
     alignSelf: 'flex-end',
   },
+  selfCenter: {
+    alignSelf: 'center',
+  },
   containerView: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -26,8 +29,14 @@ export const commonStyles = StyleSheet.create({
   justify_between: {
     justifyContent: 'space-between',
   },
+  justify_around: {
+    justifyContent: 'space-around',
+  },
   justify_end: {
     justifyContent: 'flex-end',
+  },
+  justify_center: {
+    justifyContent: 'center',
   },
   pd_bottom_12: {
     paddingBottom: scale(12),
@@ -44,6 +53,9 @@ export const commonStyles = StyleSheet.create({
   pd_right_6: {
     paddingRight: scale(6),
   },
+  pd_bottom_6: {
+    paddingBottom: scale(6),
+  },
   pd_4: {
     padding: scale(4),
   },
@@ -52,6 +64,9 @@ export const commonStyles = StyleSheet.create({
   },
   pd_horizontal_16: {
     paddingHorizontal: scale(16),
+  },
+  pd_vertical_10: {
+    paddingVertical: scale(10),
   },
   pd_right_16: {
     paddingRight: scale(16),
@@ -65,6 +80,9 @@ export const commonStyles = StyleSheet.create({
   mg_bottom_10: {
     marginBottom: scale(10),
   },
+  mg_bottom_14: {
+    marginBottom: scale(14),
+  },
   mt_4: {
     marginTop: scale(4),
   },
@@ -76,6 +94,12 @@ export const commonStyles = StyleSheet.create({
   },
   mt_10: {
     marginTop: scale(10),
+  },
+  mt_12: {
+    marginTop: scale(12),
+  },
+  mt_14: {
+    marginTop: scale(14),
   },
   mr_6: {
     marginRight: scale(6),
@@ -192,6 +216,14 @@ export const commonStyles = StyleSheet.create({
   },
   textWhite: {
     color: Colors.White,
+  },
+  border_bottom: {
+    borderBottomWidth: scale(1),
+    borderColor: Colors.Timberwolf,
+  },
+  border_top: {
+    borderTopWidth: scale(1),
+    borderColor: Colors.Timberwolf,
   },
 });
 

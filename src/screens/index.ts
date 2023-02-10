@@ -6,4 +6,5 @@ export { Login } from '@/screens/Login/Login.screen';
 export { ProductPage } from '@/screens/Product/Product.screen';
 export { ProductDetailPage } from '@/screens/Product/ProductDetail/ProductDetail.screen';
 export { ProductSizeSelectPage } from '@/screens/Product/ProductSizeSelect/ProductSizeSelect.screen';
+export { ProfilePage } from '@/screens/Profile/Profile.screen';
 export { RegisterComponent } from '@/screens/Register/Register.screen';

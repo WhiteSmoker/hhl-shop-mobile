@@ -7,6 +7,7 @@ import { ifNotchIphone } from '../theme/scale';
 import CartNavigator from './CartNavigator';
 import HomeNavigator from './HomeNavigator';
 import ProductNavigator from './ProductNavigator';
+import ProfileNavigator from './ProfileNavigator';
 
 import {
   IconDotRecordTab,
@@ -111,7 +112,7 @@ export function AppNavigator() {
       />
       <Tab.Screen
         name={APP_NAVIGATION.PROFILE}
-        component={HomeNavigator}
+        component={ProfileNavigator}
         options={({ route }) => ({
           tabBarLabel: () => <></>,
           tabBarIcon: props => {

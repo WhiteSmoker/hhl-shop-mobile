@@ -12,6 +12,14 @@ export class OrderController {
       data: payload,
     });
   }
+
+  getOrderByUserId(id: string) {
+    return networkService.request<any>({
+      method: 'GET',
+      url: ApiRoutes.order.orderByUserId + `/${id}`,
+      data: undefined,
+    });
+  }
 }
 
 export const orderController = new OrderController();

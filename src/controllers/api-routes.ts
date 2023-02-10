@@ -12,6 +12,7 @@ export const ApiRoutes = {
     products: '/products',
   },
   order: {
-    orders: 'orders',
+    orders: '/orders',
+    orderByUserId: '/orders/user',
   },
 };

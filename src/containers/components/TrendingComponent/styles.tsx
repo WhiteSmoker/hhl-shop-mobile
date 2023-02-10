@@ -1,8 +1,9 @@
-import { spacing } from '@/theme';
-import { Colors } from '@/theme/colors';
 import { StyleSheet } from 'react-native';
 import { scale } from 'react-native-size-scaling';
 import styled from 'styled-components/native';
+
+import { spacing } from '@/theme';
+import { Colors } from '@/theme/colors';
 
 export const styles = StyleSheet.create({
   imgPostTrending: {
