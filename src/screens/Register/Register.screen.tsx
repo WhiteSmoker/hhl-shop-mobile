@@ -1,15 +1,15 @@
-import HorizontalRuleComponent from '@/containers/components/HorizontalRuleComponent';
-import { ContainerStyled } from '@/styles/styled-component';
-import { Colors } from '@/theme/colors';
 import React, { Fragment } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { Alert, KeyboardAvoidingView, Linking, Platform, StatusBar, View } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { scale } from 'react-native-size-scaling';
+import Toast from 'react-native-toast-message';
 import Icon from 'react-native-vector-icons/Ionicons';
-import MainLogoSvg from '@/assets/icons/header/Logo1.svg';
-import MainLogo2Svg from '@/assets/icons/header/Logo2.svg';
 import { useDispatch } from 'react-redux';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
+
 import {
   styles,
   TextErrorStyled,
@@ -19,17 +19,17 @@ import {
   ViewBtnLoginStyled,
   ViewSigninStyled,
 } from '../Login/Login.style';
-import { commonStyles } from '@/styles/common';
-import { Controller, useForm } from 'react-hook-form';
-import { AUTH_NAVIGATION, REG_EMAIL } from '@/constants';
-import { _checkExistEmail } from '@/utils/helper';
-import { setProfile } from '@/stores/reducers';
 import { IProps } from './Register.prop';
-import { globalLoading } from '@/containers/actions/emitter.action';
-import { spacing } from '@/theme';
 
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
+import { REG_EMAIL } from '@/constants';
+import { globalLoading } from '@/containers/actions/emitter.action';
+import HorizontalRuleComponent from '@/containers/components/HorizontalRuleComponent';
+import { authController } from '@/controllers';
+import { setProfile } from '@/stores/reducers';
+import { commonStyles } from '@/styles/common';
+import { ContainerStyled } from '@/styles/styled-component';
+import { spacing } from '@/theme';
+import { Colors } from '@/theme/colors';
 
 type FormData = {
   email: string;
@@ -55,7 +55,14 @@ export const RegisterComponent = (props: IProps) => {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<{ email: string; password: string; confirmPassword: string; checkbox: boolean }>({
+  } = useForm<{
+    email: string;
+    username: string;
+    phoneNumber: string;
+    password: string;
+    confirmPassword: string;
+    checkbox: boolean;
+  }>({
     mode: 'onChange',
     resolver: yupResolver(schema),
   });
@@ -70,16 +77,18 @@ export const RegisterComponent = (props: IProps) => {
     }
   };
 
-  const onSubmit = async ({ email, password }: FormData) => {
+  const onSubmit = async (value: any) => {
     try {
       globalLoading(true);
-      const res = await _checkExistEmail(email);
-      if (res) {
-        Alert.alert('', 'Email already exists.');
-        return;
+      const res: any = await authController.register(value);
+      if (res.success) {
+        Toast.show({
+          type: 'info',
+          text1: 'Bạn đã đặt hàng thành công!',
+          text2: '',
+        });
       }
-      dispatch(setProfile({ email, password }));
-      props.navigation.push(AUTH_NAVIGATION.USER_INFORMATION);
+      props.navigation.pop();
     } catch (error: any) {
       console.log(error);
       Alert.alert(error.error);
@@ -96,10 +105,7 @@ export const RegisterComponent = (props: IProps) => {
         keyboardShouldPersistTaps="handled"
         enableOnAndroid={true}>
         <StatusBar translucent={true} backgroundColor="transparent" />
-        <View style={styles.viewLogo}>
-          <MainLogoSvg width={scale(100)} height={scale(100)} style={{ marginBottom: 10 }} />
-          <MainLogo2Svg width={scale(200)} height={scale(27)} />
-        </View>
+        <View style={styles.viewLogo} />
         <KeyboardAvoidingView>
           <Fragment>
             <Controller
@@ -118,6 +124,45 @@ export const RegisterComponent = (props: IProps) => {
               defaultValue={''}
             />
             {errors.email && errors.email?.message && <TextErrorStyled>{errors.email?.message}</TextErrorStyled>}
+
+            <Controller
+              control={control}
+              render={({ field: { value, onChange, onBlur } }) => (
+                <TextInputStyled
+                  marginTop={16}
+                  autoCapitalize="none"
+                  value={value}
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                  placeholder="Tên đăng nhập"
+                />
+              )}
+              name="username"
+              defaultValue={''}
+            />
+            {errors.username && errors.username?.message && (
+              <TextErrorStyled>{errors.username?.message}</TextErrorStyled>
+            )}
+
+            <Controller
+              control={control}
+              render={({ field: { value, onChange, onBlur } }) => (
+                <TextInputStyled
+                  marginTop={16}
+                  autoCapitalize="none"
+                  value={value}
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                  placeholder="Số điện thoại"
+                />
+              )}
+              name="phoneNumber"
+              defaultValue={''}
+            />
+            {errors.phoneNumber && errors.phoneNumber?.message && (
+              <TextErrorStyled>{errors.phoneNumber?.message}</TextErrorStyled>
+            )}
+
             <Controller
               control={control}
               render={({ field: { value, onChange, onBlur } }) => (
@@ -128,7 +173,7 @@ export const RegisterComponent = (props: IProps) => {
                   value={value}
                   onChangeText={onChange}
                   onBlur={onBlur}
-                  placeholder="Password"
+                  placeholder="Mật khẩu"
                 />
               )}
               name="password"
@@ -147,7 +192,7 @@ export const RegisterComponent = (props: IProps) => {
                   value={value}
                   onChangeText={onChange}
                   onBlur={onBlur}
-                  placeholder="Confirm Password"
+                  placeholder="Xác nhận mật khẩu"
                 />
               )}
               name="confirmPassword"
@@ -207,7 +252,7 @@ export const RegisterComponent = (props: IProps) => {
             )}
 
             <ViewBtnLoginStyled backgroundColor={Colors.Light_Blue} onPress={handleSubmit(onSubmit)} marginTop={22}>
-              <TextLoginStyled>Sign up</TextLoginStyled>
+              <TextLoginStyled>Đăng ký</TextLoginStyled>
             </ViewBtnLoginStyled>
           </Fragment>
 
@@ -215,13 +260,13 @@ export const RegisterComponent = (props: IProps) => {
           <ViewSigninStyled onPress={_gotoSignin}>
             <View style={[{ marginRight: scale(8) }]}>
               <TextOrStyled>
-                <TextOrStyled color={Colors.white}>Already have an account?</TextOrStyled>
+                <TextOrStyled color={Colors.white}>Đã có tài khoản?</TextOrStyled>
               </TextOrStyled>
             </View>
             <View>
               <TextOrStyled>
                 <TextOrStyled color={Colors.Pure_Yellow} style={{ fontWeight: 'bold' }}>
-                  Sign in!
+                  Đăng nhập!
                 </TextOrStyled>
               </TextOrStyled>
             </View>

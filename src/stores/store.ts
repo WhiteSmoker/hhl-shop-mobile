@@ -1,33 +1,12 @@
-import { chatSlice } from './reducers/chat.reducer';
-import { AnyAction, CombinedState, combineReducers, configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import {
-  authSlice,
-  commentSlice,
-  commonSlice,
-  conversationSlice,
-  counterSlice,
-  discoverySlice,
-  recordSlice,
-  searchSlice,
-  stumpSlice,
-  surveySlice,
-  userSlice,
-} from './reducers';
+import { AnyAction, CombinedState, combineReducers, configureStore } from '@reduxjs/toolkit';
+
+import { authSlice, cartSlice, userSlice } from './reducers';
 
 const reducer = combineReducers({
   authState: authSlice.reducer,
   userState: userSlice.reducer,
-  surveyState: surveySlice.reducer,
-  stumpState: stumpSlice.reducer,
-  commonState: commonSlice.reducer,
-  commentState: commentSlice.reducer,
-  chatState: chatSlice.reducer,
-  recordState: recordSlice.reducer,
-  searchState: searchSlice.reducer,
-  discoveryState: discoverySlice.reducer,
-  counterState: counterSlice.reducer,
-  conversationState: conversationSlice.reducer,
+  cartState: cartSlice.reducer,
 });
 
 /** config root reducer */

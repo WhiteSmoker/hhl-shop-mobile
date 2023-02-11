@@ -1,4 +1,4 @@
-import IconUntickRadio from './UntickRadio.svg';
 import IconTickRadio from './TickRadio.svg';
+import IconUntickRadio from './UntickRadio.svg';
 
-export { IconUntickRadio, IconTickRadio };
+export { IconTickRadio, IconUntickRadio };

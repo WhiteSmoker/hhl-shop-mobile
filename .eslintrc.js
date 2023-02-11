@@ -2,13 +2,28 @@ module.exports = {
   root: true,
   extends: '@react-native-community',
   parser: '@typescript-eslint/parser',
-  plugins: ['react', 'react-native', '@typescript-eslint', 'prettier'],
+  plugins: ['react', 'react-native', '@typescript-eslint', 'prettier', 'simple-import-sort'],
   env: {
     browser: true,
     node: true,
     jest: true,
     es6: true,
     'react-native/react-native': true,
+  },
+  rules: {
+    // simple import rules
+    'simple-import-sort/exports': ['error'],
+    'simple-import-sort/imports': [
+      'error',
+      {
+        groups: [
+          ['^react.*', '^next.*', '^(?!src|.?./|.+\\.(s?css|less)$).*'],
+          ['^src'],
+          ['^\\.\\.(?!/?$)', '^\\.\\./?$', '^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$'],
+          ['^.+\\.(s?css|less)$'],
+        ],
+      },
+    ],
   },
   overrides: [
     {

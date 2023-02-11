@@ -1,9 +1,11 @@
 import { Platform, StyleSheet } from 'react-native';
-import { spacing } from '@/theme';
-import { scale } from '@/theme/scale';
 import styled from 'styled-components/native';
-import { Colors } from '@/theme/colors';
+
 import { StyledProps } from './Login.prop';
+
+import { spacing } from '@/theme';
+import { Colors } from '@/theme/colors';
+import { scale } from '@/theme/scale';
 
 export const TextInputStyled = styled.TextInput`
   background: ${Colors.Light_grey3};
@@ -30,7 +32,7 @@ export const TextErrorStyled = styled.Text`
 `;
 
 export const ViewForgotPasswordStyled = styled.View`
-  margin-top: ${(props: StyledProps) => scale(props.marginTop || 6)}px;
+  margin-top: ${(props: StyledProps) => scale(props.marginTop || 16)}px;
   margin-bottom: ${(props: StyledProps) => scale(props.marginTop || 16)}px;
   width: 90%;
   align-self: center;
@@ -103,7 +105,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: scale(spacing.s),
-    backgroundColor: Colors.Background2,
+    backgroundColor: Colors.Soft_Blue,
   },
   formContainer: {
     borderRadius: scale(5),

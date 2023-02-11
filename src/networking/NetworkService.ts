@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+
 import { apiURL, headers, timeout } from '@/networking/config';
 import { requestInterceptor, responseInterceptor } from '@/networking/interceptors';
 interface ResponseData<T> {
@@ -15,7 +16,7 @@ class NetworkService {
   }
 
   setAccessToken(token: string) {
-    this.client.defaults.headers.common.authorization = `${token}`;
+    this.client.defaults.headers.common.Authorization = `bearer ${token}`;
   }
 
   clearAccessToken() {
@@ -23,7 +24,10 @@ class NetworkService {
   }
 
   request<T>({ method, url, data, ...config }: AxiosRequestConfig<any>) {
-    return this.client.request<ResponseData<T>>({ method, url, data, ...config }).then(res => res.data);
+    return this.client
+      .request<ResponseData<T>>({ method, url, data, ...config })
+      .then(res => res.data)
+      .catch(err => console.log(err));
   }
 }
 

@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { stumpSlice } from './stump.reducer';
 type RegisterState = {
   email: string;
   password: string;

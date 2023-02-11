@@ -1,4 +1,12 @@
-import { Platform, StatusBar, Text, TouchableOpacity, View } from 'react-native';
+import React, { Fragment, useEffect } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { Platform, StatusBar, TouchableOpacity, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { scale } from 'react-native-size-scaling';
+import { useDispatch } from 'react-redux';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
+
 import { ILoginProps } from './Login.prop';
 import {
   styles,
@@ -7,40 +15,24 @@ import {
   TextLoginStyled,
   TextOrStyled,
   ViewBtnLoginStyled,
-  ViewBtnSocial,
   ViewForgotPasswordStyled,
-  ViewLoginSocialStyled,
   ViewSigninStyled,
 } from './Login.style';
-import { ContainerStyled } from '@/styles/styled-component';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { scale } from 'react-native-size-scaling';
-import React, { Fragment, useEffect } from 'react';
-import TwitterComponent from '@/containers/components/TwitterComponent';
-import LinkedInComponent from '@/containers/components/LinkedInComponent';
-import FacebookComponent from '@/containers/components/FacebookComponent';
-import AppleLoginComponent from '@/containers/components/AppleLoginComponent';
+
+import { AUTH_NAVIGATION } from '@/constants';
 import HorizontalRuleComponent from '@/containers/components/HorizontalRuleComponent';
-import { Colors } from '@/theme/colors';
-import { SocialIcon } from 'react-native-elements';
-import { AUTH_NAVIGATION, ROOT_ROUTES } from '@/constants';
-import { useDispatch } from 'react-redux';
-import { Controller, useForm } from 'react-hook-form';
-import MainLogoSvg from '@/assets/icons/header/Logo1.svg';
-import MainLogo2Svg from '@/assets/icons/header/Logo2.svg';
-import { fetchDataFirstTime, fetchLogin } from '@/stores/thunks/auth.thunk';
-import { TAppDispatch } from '@/stores';
-import SplashScreen from 'react-native-splash-screen';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
-import AppleIcon from '@/assets/icons/AppleIcon.svg';
-import { ASYNC_STORE, storage } from '@/storage';
-import { spacing } from '@/theme';
 import { networkService } from '@/networking';
+import { ASYNC_STORE, storage } from '@/storage';
+import { TAppDispatch } from '@/stores';
+import { setUserInfo } from '@/stores/reducers';
+import { fetchLogin } from '@/stores/thunks/auth.thunk';
+import { ContainerStyled } from '@/styles/styled-component';
+import { spacing } from '@/theme';
+import { Colors } from '@/theme/colors';
 
 const schema = Yup.object().shape({
-  email: Yup.string().email('Please enter a valid email address').required('Please enter your email address'),
-  password: Yup.string().min(6, 'The password must be at least 6 characters').required('Please enter your password'),
+  username: Yup.string().required('Please enter your user name'),
+  password: Yup.string().required('Please enter your password'),
 });
 
 export const Login = (props: ILoginProps) => {
@@ -50,49 +42,31 @@ export const Login = (props: ILoginProps) => {
     control,
     handleSubmit,
     formState: { errors, touchedFields },
-  } = useForm<{ email: string; password: string }>({ mode: 'onChange', resolver: yupResolver(schema) });
+  } = useForm<{ username: string; password: string }>({ mode: 'onChange', resolver: yupResolver(schema) });
 
   const _fetchUser = async () => {
     const token = await storage.getItem(ASYNC_STORE.TOKEN_ID);
-
+    const user = await storage.getItem(ASYNC_STORE.MY_USER);
     if (token) {
       networkService.setAccessToken(token);
-      dispatch(fetchDataFirstTime(false));
-    } else {
-      SplashScreen.hide();
+    }
+    if (user) {
+      dispatch(setUserInfo(JSON.parse(user)));
     }
   };
 
   useEffect(() => {
-    //fetch user
     _fetchUser();
   }, []);
 
-  const buttonNodeLinked = React.useMemo(() => <SocialIcon type="linkedin" iconSize={scale(24)} />, []);
-  const buttonNodeTwitter = React.useMemo(() => <SocialIcon type="twitter" iconSize={scale(24)} />, []);
-  const buttonNodeFB = React.useMemo(() => <SocialIcon type="facebook" iconSize={scale(22)} />, []);
-  const buttonNodeApple = React.useMemo(
-    () => (
-      <View style={styles.view_icon_apple}>
-        <AppleIcon width={scale(24)} height={scale(24)} />
-      </View>
-    ),
-    [],
-  );
-
   const _gotoSignup = () => {
-    // props.navigation.push(AUTH_NAVIGATION.REGISTER);
-    props.navigation.push(ROOT_ROUTES.SIGN_UP_SURVEY);
+    props.navigation.push(AUTH_NAVIGATION.REGISTER);
   };
   const _gotoForgotPassword = () => {
     props.navigation.navigate(AUTH_NAVIGATION.FORGOT_PASSWORD);
   };
 
-  const _gotoSurvey = () => {
-    props.navigation.navigate(AUTH_NAVIGATION.SURVEY_FAV);
-  };
-
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     dispatch(fetchLogin(data));
   };
 
@@ -104,27 +78,24 @@ export const Login = (props: ILoginProps) => {
         keyboardShouldPersistTaps="handled"
         enableOnAndroid={true}>
         <StatusBar translucent={true} backgroundColor="transparent" />
-        <View style={styles.viewLogo}>
-          <MainLogoSvg width={scale(100)} height={scale(100)} style={{ marginBottom: 10 }} />
-          <MainLogo2Svg width={scale(200)} height={scale(27)} />
-        </View>
+        <View style={styles.viewLogo} />
         <Fragment>
           <Controller
             control={control}
             render={({ field: { value, onChange, onBlur } }) => (
               <TextInputStyled
                 autoCapitalize="none"
-                keyboardType={'email-address'}
+                keyboardType={'default'}
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
-                placeholder="Email"
+                placeholder="Tên người dùng"
               />
             )}
-            name="email"
+            name="username"
             defaultValue={''}
           />
-          {errors.email && <TextErrorStyled>{errors.email?.message ?? ' '}</TextErrorStyled>}
+          {errors.username && <TextErrorStyled>{errors.username?.message ?? ' '}</TextErrorStyled>}
           <Controller
             control={control}
             render={({ field: { value, onChange, onBlur } }) => (
@@ -135,7 +106,7 @@ export const Login = (props: ILoginProps) => {
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
-                placeholder="Password"
+                placeholder="Mật khẩu"
               />
             )}
             name="password"
@@ -145,46 +116,31 @@ export const Login = (props: ILoginProps) => {
 
           <ViewForgotPasswordStyled>
             <TouchableOpacity onPress={_gotoForgotPassword}>
-              <TextOrStyled color={Colors.Pure_Yellow} style={{ fontWeight: 'bold' }}>
-                Forgot Password?
+              <TextOrStyled color={Colors.Strong_Blue} style={{ fontWeight: 'bold' }}>
+                Quên mật khẩu
               </TextOrStyled>
             </TouchableOpacity>
           </ViewForgotPasswordStyled>
 
           <ViewBtnLoginStyled
-            backgroundColor={Colors.Background3}
+            backgroundColor={Colors.Strong_Blue}
             onPress={handleSubmit(onSubmit)}
             style={[styles.shadow]}>
-            <TextLoginStyled>Sign in</TextLoginStyled>
+            <TextLoginStyled>Đăng nhập</TextLoginStyled>
           </ViewBtnLoginStyled>
-          <View style={styles.underlineView}>
-            <HorizontalRuleComponent width={'100%'} height={scale(0.5)} color={'#F0F4F6'} />
-            <View style={styles.orView}>
-              <View style={{ marginHorizontal: scale(10) }}>
-                <TextOrStyled>Or</TextOrStyled>
-              </View>
-            </View>
-          </View>
-          <TextOrStyled style={{ marginBottom: scale(16) }}>Sign in with other network accounts </TextOrStyled>
-          <ViewLoginSocialStyled>
-            <FacebookComponent button={buttonNodeFB} gotoSurvey={_gotoSurvey} />
-            <TwitterComponent button={buttonNodeTwitter} gotoSurvey={_gotoSurvey} />
-            <LinkedInComponent button={buttonNodeLinked} gotoSurvey={_gotoSurvey} />
-            {Platform.OS === 'ios' && <AppleLoginComponent button={buttonNodeApple} gotoSurvey={_gotoSurvey} />}
-          </ViewLoginSocialStyled>
         </Fragment>
         <HorizontalRuleComponent width={0} height={scale(64)} color={'transparent'} />
 
         <ViewSigninStyled onPress={_gotoSignup}>
           <View style={[{ marginRight: scale(8) }]}>
             <TextOrStyled>
-              <TextOrStyled color={Colors.white}>Don’t have an account?</TextOrStyled>
+              <TextOrStyled color={Colors.white}>Không có tài khoản?</TextOrStyled>
             </TextOrStyled>
           </View>
           <View>
             <TextOrStyled>
-              <TextOrStyled color={Colors.Pure_Yellow} style={{ fontWeight: 'bold' }}>
-                Sign up!
+              <TextOrStyled color={Colors.Strong_Blue} style={{ fontWeight: 'bold' }}>
+                Đăng ký
               </TextOrStyled>
             </TextOrStyled>
           </View>
