@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">StumpSport</string>
+    <string name="app_name">HHLShop</string>
     <string name="facebook_app_id">488169495637006</string>
     <string name="facebook_client_token">8642314b9b6071a12745b8d3692c2ec1</string>
     <string name="fb_login_protocol_scheme">fb488169495637006</string>
